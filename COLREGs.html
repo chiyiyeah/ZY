@@ -6,64 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>航海避碰教學互動平台</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #eef2f3; touch-action: none; }
+        body { font-family: sans-serif; margin: 0; background: #eef2f3; touch-action: none; user-select: none; }
         nav { background: #004e70; padding: 15px; display: flex; justify-content: space-around; }
         nav a { color: white; cursor: pointer; font-weight: bold; text-decoration: none; }
         .content { padding: 20px; display: none; }
         .active { display: block; }
         .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn { padding: 12px 24px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; margin: 5px; font-size: 16px; }
+        .btn { padding: 15px 30px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 8px; font-size: 18px; }
         
-        /* 遊戲區域放大調整 */
-        #game-area { position: relative; width: 90vw; height: 70vh; background: #4facfe; margin: 0 auto; overflow: hidden; border: 4px solid #fff; }
-        .unit { position: absolute; width: 9vw; height: 7vh; display: flex; justify-content: center; align-items: center; font-size: 40px; transition: all 0.1s; }
-        #overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; }
+        #game-area { position: relative; width: 90vw; height: 50vh; background: #4facfe; margin: 0 auto; overflow: hidden; border: 4px solid #fff; touch-action: none; }
+        .unit { position: absolute; width: 9vw; height: 5vh; display: flex; justify-content: center; align-items: center; font-size: 25px; transition: all 0.1s linear; }
+        #port { position: absolute; width: 9vw; height: 5vh; background: gold; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 25px; z-index: 10; }
+        #overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
     </style>
 </head>
 <body>
 
 <nav>
-    <a onclick="showTab('rules')">避碰規則</a>
-    <a onclick="showTab('lights')">燈號學習</a>
-    <a onclick="showTab('quiz')">測驗評量</a>
-    <a onclick="showTab('game')">避讓遊戲</a>
+    <a onclick="showTab('rules')">規則</a>
+    <a onclick="showTab('lights')">燈號</a>
+    <a onclick="showTab('quiz')">測驗</a>
+    <a onclick="showTab('game')">遊戲</a>
 </nav>
 
 <div id="rules" class="content active">
     <div class="card">
-        <h2>國際海上避碰規則重點</h2>
-        <ul>
-            <li>對遇局面：兩動力船航向相反，均應向右轉，以左舷通過。</li>
-            <li>交叉相遇：見他船在右舷者為讓路船，應避讓。</li>
-            <li>追越：被追越船為直航船，須保持航向與速度。</li>
-        </ul>
+        <h2>避碰規則重點</h2>
+        <p>對遇局面應各自右轉，以左舷通過；交叉相遇時，右舷有他船為讓路船；追越時被追越船保持航向。</p>
     </div>
 </div>
 
 <div id="lights" class="content">
     <div class="card">
         <h2>船舶燈號識別</h2>
-        <p>🔴紅燈：左舷 | 🟢綠燈：右舷</p>
-        <p>🔴🔴失控船 | 🟡🟡拖船</p>
+        <p>🔴左舷 | 🟢右舷 | 🔴🔴失控船 | 🟡🟡拖帶船</p>
     </div>
 </div>
 
 <div id="quiz" class="content">
-    <div class="card" id="quiz-box">
-        <h2 id="q-text">測驗開始</h2>
-        <div id="q-opts"></div>
-        <div id="feedback" style="font-weight:bold; margin-top:10px;"></div>
-        <p>目前得分：<span id="score">0</span> / 10</p>
+    <div class="card">
+        <h2>測驗</h2>
+        <p id="q-text">對遇局面應向哪邊轉？</p>
+        <button class="btn" onclick="check(0)">向右</button>
+        <button class="btn" onclick="check(1)">向左</button>
+        <p>得分：<span id="score">0</span></p>
     </div>
 </div>
 
 <div id="game" class="content">
     <div class="card">
-        <h3>遊戲生命值: <span id="life">5</span></h3>
+        <h3>生命值: <span id="life">5</span></h3>
         <div id="game-area">
             <div id="overlay">
-                <button onclick="startGame()" style="padding:20px; font-size:24px;">點擊開始遊戲</button>
+                <h2 id="msg">開始航行</h2>
+                <button class="btn" onclick="startGame()">開始遊戲</button>
             </div>
+            <div id="port">⚓</div>
             <div id="ship" class="unit">🚢</div>
             <div id="o1" class="unit">🛢️</div>
             <div id="o2" class="unit">🛳️</div>
@@ -73,12 +71,12 @@
 </div>
 
 <script>
-    let life = 5, score = 0, currentQ = 0, gameStarted = false;
-    let shipPos = { x: 4, y: 8 };
-    const obstacles = [
-        { el: document.getElementById('o1'), x: 0, y: 0, speed: 1000, type: 'chase' },
-        { el: document.getElementById('o2'), x: 9, y: 0, speed: 800, type: 'wander' },
-        { el: document.getElementById('o3'), x: 9, y: 9, speed: 1200, type: 'random' }
+    let life = 5, score = 0, gameStarted = false;
+    let ship = {x:0, y:0}, port = {x:9, y:9};
+    const obs = [
+        { el: document.getElementById('o1'), x: 5, y: 5, mode: 'chase' },
+        { el: document.getElementById('o2'), x: 8, y: 2, mode: 'wander' },
+        { el: document.getElementById('o3'), x: 2, y: 8, mode: 'wander' }
     ];
 
     function showTab(id) {
@@ -86,80 +84,77 @@
         document.getElementById(id).classList.add('active');
     }
 
-    // 測驗邏輯
-    const questions = [
-        { q: "對遇局面應如何避讓？", a: ["各自向右轉", "各自向左轉"], correct: 0 },
-        { q: "交叉相遇時，右舷有他船為？", a: ["讓路船", "直航船"], correct: 0 },
-        { q: "被追越船為？", a: ["讓路船", "直航船"], correct: 1 },
-        { q: "垂直兩紅燈代表？", a: ["失控船", "拖船"], correct: 0 },
-        { q: "動力船是否應保持安全速度？", a: ["是", "否"], correct: 0 },
-        { q: "追越他船應避讓嗎？", a: ["是", "否"], correct: 0 },
-        { q: "垂直兩黃燈代表？", a: ["拖船", "捕魚船"], correct: 0 },
-        { q: "在霧中能適用互見規則嗎？", a: ["不能", "能"], correct: 0 },
-        { q: "航行時是否需保持瞭望？", a: ["是", "否"], correct: 0 },
-        { q: "交叉相遇時，應盡量避免？", a: ["橫越船首", "轉向"], correct: 0 }
-    ];
+    function check(i) { if(i === 0) { score++; life++; document.getElementById('score').innerText = score; } }
 
-    function loadQuiz() {
-        if(currentQ >= questions.length) { document.getElementById('quiz-box').innerHTML = `<h3>測驗結束！總分：${score}</h3>`; return; }
-        document.getElementById('q-text').innerText = questions[currentQ].q;
-        let html = "";
-        questions[currentQ].a.forEach((opt, i) => html += `<button class="btn" onclick="check(${i})">${opt}</button>`);
-        document.getElementById('q-opts').innerHTML = html;
-    }
-
-    function check(idx) {
-        if(idx === questions[currentQ].correct) { score++; life++; document.getElementById('life').innerText = life; document.getElementById('feedback').innerText = "答對！生命值+1"; document.getElementById('feedback').style.color="green"; }
-        else { document.getElementById('feedback').innerText = "答錯了"; document.getElementById('feedback').style.color="red"; }
-        document.getElementById('score').innerText = score;
-        currentQ++; setTimeout(loadQuiz, 1000);
-    }
-
-    // 遊戲邏輯
-    function update() {
-        document.getElementById('ship').style.left = (shipPos.x * 9) + 'vw';
-        document.getElementById('ship').style.top = (shipPos.y * 7) + 'vh';
-        obstacles.forEach(o => {
+    function updateView() {
+        document.getElementById('ship').style.left = (ship.x * 9) + 'vw';
+        document.getElementById('ship').style.top = (ship.y * 5) + 'vh';
+        document.getElementById('port').style.left = (port.x * 9) + 'vw';
+        document.getElementById('port').style.top = (port.y * 5) + 'vh';
+        obs.forEach(o => {
             o.el.style.left = (o.x * 9) + 'vw';
-            o.el.style.top = (o.y * 7) + 'vh';
+            o.el.style.top = (o.y * 5) + 'vh';
         });
     }
 
-    function startGame() { gameStarted = true; document.getElementById('overlay').style.display = 'none'; update(); }
+    function startGame() {
+        gameStarted = true; life = 5;
+        ship = {x: 0, y: 0};
+        do { port = {x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)}; } 
+        while (Math.abs(port.x - ship.x) + Math.abs(port.y - ship.y) < 10);
+        
+        obs.forEach(o => { o.x = Math.floor(Math.random()*10); o.y = Math.floor(Math.random()*10); });
+        document.getElementById('life').innerText = life;
+        document.getElementById('overlay').style.display = 'none';
+        updateView();
+    }
 
-    // 優化後的移動邏輯
-    document.addEventListener('keydown', e => {
+    // 鍵盤操控
+    window.addEventListener('keydown', e => {
         if(!gameStarted) return;
-        if(e.key === 'ArrowLeft') shipPos.x = Math.max(0, shipPos.x - 1);
-        if(e.key === 'ArrowRight') shipPos.x = Math.min(9, shipPos.x + 1);
-        if(e.key === 'ArrowUp') shipPos.y = Math.max(0, shipPos.y - 1);
-        if(e.key === 'ArrowDown') shipPos.y = Math.min(9, shipPos.y + 1);
-        update();
+        if(e.key === 'ArrowLeft') move(-1, 0);
+        if(e.key === 'ArrowRight') move(1, 0);
+        if(e.key === 'ArrowUp') move(0, -1);
+        if(e.key === 'ArrowDown') move(0, 1);
     });
 
-    let startX, startY;
-    document.getElementById('game-area').addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; });
-    document.getElementById('game-area').addEventListener('touchend', e => {
+    // 平板觸控滑動
+    let sx, sy;
+    const ga = document.getElementById('game-area');
+    ga.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive: false});
+    ga.addEventListener('touchend', e => {
         if(!gameStarted) return;
-        let dx = e.changedTouches[0].clientX - startX;
-        let dy = e.changedTouches[0].clientY - startY;
-        if(Math.abs(dx) > Math.abs(dy)) shipPos.x = Math.max(0, Math.min(9, shipPos.x + (dx > 0 ? 1 : -1)));
-        else shipPos.y = Math.max(0, Math.min(9, shipPos.y + (dy > 0 ? 1 : -1)));
-        update();
-    });
+        let dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        if(Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 1 : -1, 0);
+        else move(0, dy > 0 ? 1 : -1);
+    }, {passive: false});
 
-    obstacles.forEach(o => {
-        setInterval(() => {
-            if(!gameStarted || life <= 0) return;
-            if (o.type === 'chase') { o.x += (o.x < shipPos.x ? 1 : o.x > shipPos.x ? -1 : 0); o.y += (o.y < shipPos.y ? 1 : o.y > shipPos.y ? -1 : 0); }
-            else if (o.type === 'wander') { o.x = Math.max(0, Math.min(9, o.x + (Math.random() > 0.5 ? 1 : -1))); o.y = Math.max(0, Math.min(9, o.y + (Math.random() > 0.5 ? 1 : -1))); }
-            else { o.x = Math.floor(Math.random() * 10); o.y = Math.floor(Math.random() * 10); }
-            if (o.x === shipPos.x && o.y === shipPos.y) { life--; document.getElementById('life').innerText = life; if (life <= 0) { gameStarted = false; document.getElementById('overlay').style.display = 'flex'; } }
-            update();
-        }, o.speed);
-    });
+    function move(dx, dy) {
+        ship.x = Math.max(0, Math.min(9, ship.x + dx));
+        ship.y = Math.max(0, Math.min(9, ship.y + dy));
+        checkStatus(); updateView();
+    }
 
-    loadQuiz();
+    function checkStatus() {
+        if(ship.x === port.x && ship.y === port.y) {
+            gameStarted = false; document.getElementById('msg').innerText = "獲勝！重玩？"; document.getElementById('overlay').style.display = 'flex';
+        }
+        obs.forEach(o => {
+            if(o.x === ship.x && o.y === ship.y) {
+                life--; document.getElementById('life').innerText = life;
+                if(life <= 0) { gameStarted = false; document.getElementById('msg').innerText = "失敗！重玩？"; document.getElementById('overlay').style.display = 'flex'; }
+            }
+        });
+    }
+
+    setInterval(() => {
+        if(!gameStarted) return;
+        obs.forEach(o => {
+            if(o.mode === 'chase') { o.x += (o.x < ship.x ? 1 : o.x > ship.x ? -1 : 0); o.y += (o.y < ship.y ? 1 : o.y > ship.y ? -1 : 0); }
+            else { o.x = Math.max(0, Math.min(9, o.x + (Math.random() > 0.5 ? 1 : -1))); o.y = Math.max(0, Math.min(9, o.y + (Math.random() > 0.5 ? 1 : -1))); }
+        });
+        checkStatus(); updateView();
+    }, 1200);
 </script>
 </body>
 </html>
