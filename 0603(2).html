@@ -183,7 +183,7 @@
 
     <form id="quizForm">
         <div class="form-group">
-            <label><i class="fa-solid fa-school"></i> 班級分組</label>
+            <label><i class="fa-solid fa-school"></i> 班級</label>
             <select name="classGroup" required>
                 <option value="" disabled selected>請選擇您的班級</option>
                 <option value="航一">航一</option>
@@ -242,8 +242,8 @@
 </div>
 
 <script>
-    // 資料回傳網址
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwFbXpyiibSGwaV6b0kfLX0O1T16lq-LRZMx-6NMiBstonTZ5nc1BJtVOezy35Y7HN/exec';
+    // 已更換為您提供的新網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw--uD_M1NSva2FVjx1B4BftB5tP5_ixG1aeWxkEzG1r3yXoJdvpiTagOrMg-5g5JEIEA/exec';
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -262,7 +262,7 @@
         fetch(GAS_URL, {
             method: 'POST',
             body: params,
-            mode: 'no-cors' // 解決跨網域問題
+            mode: 'no-cors' // 徹底防範跨網域 CORS 阻擋
         })
         .then(() => {
             msg.className = 'success';
