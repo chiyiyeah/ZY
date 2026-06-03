@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>國中自然與地理隨堂小測驗</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+      min-height: 100vh;
+    }
+    .quiz-card {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="py-6 px-4 md:py-12 flex flex-col items-center justify-center">
+
+  <!-- 主容器 -->
+  <div class="w-full max-w-lg bg-white rounded-3xl quiz-card overflow-hidden relative border-4 border-emerald-100">
+    
+    <!-- 頂部裝飾條 & 設定按鈕 -->
+    <div class="bg-gradient-to-r from-sky-400 to-emerald-400 p-6 text-white text-center relative">
+      <button onclick="toggleSettings()" class="absolute right-4 top-4 text-white/80 hover:text-white transition-colors" title="設定 API URL">
+        <i class="fas fa-cog text-xl"></i>
+      </button>
+      <div class="inline-block bg-white/20 p-2 rounded-full mb-2">
+        <i class="fas fa-graduation-cap text-3xl"></i>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide">隨堂小測驗</h1>
+      <p class="text-sky-100 text-sm mt-1">動動腦時間！點選正確答案並送出吧！</p>
+    </div>
+
+    <!-- API 設定面板（預設隱藏，已填入預設 URL） -->
+    <div id="settingsPanel" class="hidden bg-slate-50 border-b border-slate-200 p-4 transition-all">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-bold text-slate-700 text-sm"><i class="fas fa-link mr-1"></i> 串接 Google 試算表 (GAS Web App)</h3>
+        <button onclick="toggleSettings()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times"></i></button>
+      </div>
+      <p class="text-xs text-slate-500 mb-2">已預設載入您的 GAS Web App API。若日後有更新，可於下方重新設定。</p>
+      <input type="text" id="apiUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400">
+      <button onclick="saveApiUrl()" class="mt-2 w-full bg-emerald-500 text-white text-xs py-1.5 rounded-lg hover:bg-emerald-600 font-medium transition-colors">儲存新設定</button>
+    </div>
+
+    <!-- 表單內容 -->
+    <form id="quizForm" onsubmit="submitQuiz(event)" class="p-6 md:p-8 space-y-6">
+      
+      <!-- 學生姓名輸入 -->
+      <div class="space-y-2">
+        <label for="studentName" class="block font-bold text-slate-700 text-lg">
+          <i class="fas fa-user-edit text-sky-500 mr-2"></i>學生姓名 <span class="text-rose-500">*</span>
+        </label>
+        <input 
+          type="text" 
+          id="studentName" 
+          required 
+          placeholder="請輸入你的名字..." 
+          class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-100 transition-all text-slate-800 font-medium"
+        >
+      </div>
+
+      <hr class="border-dashed border-slate-200">
+
+      <!-- 第一題 -->
+      <div class="space-y-3">
+        <div class="bg-sky-50 text-sky-800 px-3 py-1.5 rounded-lg inline-block text-xs font-bold">地理題</div>
+        <h2 class="font-bold text-slate-800 text-lg">1. 台灣最高的山是哪一座？ <span class="text-rose-500">*</span></h2>
+        
+        <div class="grid grid-cols-1 gap-2.5">
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-sky-200 hover:bg-sky-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q1" value="阿里山" required class="w-5 h-5 text-sky-500 focus:ring-sky-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">阿里山</span>
+          </label>
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-sky-200 hover:bg-sky-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q1" value="玉山" required class="w-5 h-5 text-sky-500 focus:ring-sky-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">玉山</span>
+          </label>
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-sky-200 hover:bg-sky-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q1" value="陽明山" required class="w-5 h-5 text-sky-500 focus:ring-sky-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">陽明山</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 第二題 -->
+      <div class="space-y-3 pt-2">
+        <div class="bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-lg inline-block text-xs font-bold">自然題</div>
+        <h2 class="font-bold text-slate-800 text-lg">2. 水的三態中，固態稱太陽為冰？ <span class="text-rose-500">*</span></h2>
+        
+        <div class="grid grid-cols-1 gap-2.5">
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q2" value="冰" required class="w-5 h-5 text-emerald-500 focus:ring-emerald-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">冰</span>
+          </label>
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q2" value="水蒸氣" required class="w-5 h-5 text-emerald-500 focus:ring-emerald-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">水蒸氣</span>
+          </label>
+          <label class="flex items-center p-3.5 rounded-xl border-2 border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/30 cursor-pointer transition-all">
+            <input type="radio" name="q2" value="雲" required class="w-5 h-5 text-emerald-500 focus:ring-emerald-400 border-slate-300">
+            <span class="ml-3 font-medium text-slate-700">雲</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 提交按鈕 -->
+      <div class="pt-4">
+        <button 
+          type="submit" 
+          id="submitBtn"
+          class="w-full bg-gradient-to-r from-sky-400 to-emerald-400 hover:from-sky-500 hover:to-emerald-500 text-white font-extrabold text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:shadow-md transition-all flex items-center justify-center gap-2"
+        >
+          <i class="fas fa-paper-plane"></i> 送出並看成績
+        </button>
+      </div>
+
+    </form>
+    
+  </div>
+
+  <!-- 成績彈出視窗 (Modal) -->
+  <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl scale-95 transition-all transform duration-300 border-4 border-sky-100">
+      
+      <!-- 可愛的分數裝飾圈 -->
+      <div class="relative w-32 h-32 mx-auto mb-4 flex items-center justify-center rounded-full bg-sky-50 border-4 border-dashed border-sky-300">
+        <div class="text-slate-800">
+          <span id="modalScore" class="text-4xl font-black text-sky-500">0</span>
+          <span class="text-lg font-bold text-slate-400">/100</span>
+        </div>
+      </div>
+
+      <h3 id="modalGreeting" class="text-xl font-black text-slate-800 mb-1">同學，做得好！</h3>
+      <p id="modalName" class="text-sm font-semibold text-emerald-500 mb-3"></p>
+      <p id="modalFeedback" class="text-slate-600 text-sm leading-relaxed mb-6"></p>
+
+      <!-- GAS 傳送狀態指示 -->
+      <div id="syncStatus" class="hidden mb-4 p-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"></div>
+
+      <button onclick="closeModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition-colors">
+        再測一次
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast 訊息通知 -->
+  <div id="toast" class="fixed bottom-4 bg-slate-800 text-white text-xs md:text-sm px-4 py-3 rounded-xl shadow-lg hidden transition-opacity z-50"></div>
+
+  <script>
+    // 您的預設 Google Apps Script API URL
+    const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbyEO-SU1JSfW48vOXkC9Pa0zS4gj3-t_4FphixkIbXN1vU8B88C6UozQMw3zN4WfXYWkg/exec';
+
+    // 載入時初始化 API 欄位
+    window.onload = function() {
+      const savedUrl = localStorage.getItem('gasWebappUrl');
+      if (savedUrl) {
+        document.getElementById('apiUrlInput').value = savedUrl;
+      } else {
+        document.getElementById('apiUrlInput').value = DEFAULT_API_URL;
+        localStorage.setItem('gasWebappUrl', DEFAULT_API_URL);
+      }
+    }
+
+    // 切換設定面板顯示
+    function toggleSettings() {
+      const panel = document.getElementById('settingsPanel');
+      panel.classList.toggle('hidden');
+    }
+
+    // 儲存 API URL 至 LocalStorage
+    function saveApiUrl() {
+      const url = document.getElementById('apiUrlInput').value.trim();
+      if (url) {
+        localStorage.setItem('gasWebappUrl', url);
+        showToast("✅ API 網址已更新！");
+      } else {
+        localStorage.setItem('gasWebappUrl', DEFAULT_API_URL);
+        document.getElementById('apiUrlInput').value = DEFAULT_API_URL;
+        showToast("🔄 已還原至預設試算表 API 網址。");
+      }
+      toggleSettings();
+    }
+
+    // 顯示 Toast 訊息
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // 計算分數並提交
+    async function submitQuiz(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('studentName').value.trim();
+      if (!name) {
+        showToast("❌ 請填寫姓名！");
+        return;
+      }
+
+      // 取得作答情況
+      const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+      const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+
+      if (!q1 || !q2) {
+        showToast("❌ 請填寫完所有題目再送出！");
+        return;
+      }
+
+      // 計分邏輯 (第一題: 玉山，第二題: 冰)
+      let score = 0;
+      if (q1 === '玉山') score += 50;
+      if (q2 === '冰') score += 50;
+
+      // 更新評語
+      document.getElementById('modalScore').textContent = score;
+      document.getElementById('modalName').textContent = `${name} 同學`;
+      
+      let feedback = "";
+      if (score === 100) {
+        feedback = "太棒了！獲得完美滿分 💯！你對台灣的地理與自然科學常識非常有概念唷！";
+      } else if (score === 50) {
+        feedback = "再接再厲！答對了一題，你可以再仔細想想錯的那題，下一次一定能拿滿分！";
+      } else {
+        feedback = "不要氣餒！這次不小心都猜錯了。沒關係，玉山是台灣最高峰，水的固態則是冰，記起來就變強囉！";
+      }
+      document.getElementById('modalFeedback').textContent = feedback;
+
+      // 鎖定送出按鈕避免重複提交
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fas fa-spinner animate-spin"></i> 資料傳送中...`;
+
+      // 顯示 Modal
+      const modal = document.getElementById('resultModal');
+      const syncStatus = document.getElementById('syncStatus');
+      modal.classList.remove('hidden');
+      
+      // 優先使用儲存的 API，若無則使用預設 API
+      const apiUrl = localStorage.getItem('gasWebappUrl') || DEFAULT_API_URL;
+      
+      syncStatus.classList.remove('hidden');
+      syncStatus.className = "mb-4 p-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 bg-amber-50 text-amber-700";
+      syncStatus.innerHTML = `<i class="fas fa-spinner animate-spin"></i> 正在將分數儲存到老師的試算表...`;
+
+      try {
+        // 發送 POST 請求
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams({
+            'name': name,
+            'score': score
+          })
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+          syncStatus.className = "mb-4 p-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700";
+          syncStatus.innerHTML = `<i class="fas fa-check-circle"></i> 成功！資料已同步到成績單囉！`;
+        } else {
+          throw new Error(result.message || "未知錯誤");
+        }
+      } catch (error) {
+        console.error(error);
+        syncStatus.className = "mb-4 p-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 bg-rose-50 text-rose-700";
+        syncStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> 雖然連線失敗，但本機成績已計算成功。`;
+      }
+
+      // 還原送出按鈕狀態
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> 送出並看成績`;
+    }
+
+    // 關閉 Modal 並重置表單
+    function closeModal() {
+      document.getElementById('resultModal').classList.add('hidden');
+      document.getElementById('quizForm').reset();
+    }
+  </script>
+</body>
+</html>
