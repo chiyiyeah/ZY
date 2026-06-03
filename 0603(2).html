@@ -20,9 +20,22 @@
         <form id="quizForm" class="p-6 space-y-6">
             
             <div>
-                <label class="block text-gray-700 font-bold mb-2">1. 班級座號 <span class="text-red-500">*</span></label>
-                <input type="text" name="classNum" placeholder="例如：10125" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <label class="block text-gray-700 font-bold mb-2">1. 班級與座號 <span class="text-red-500">*</span></label>
+                <div class="flex space-x-4">
+                    <div class="w-1/2">
+                        <select name="classSelect" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="" disabled selected>請選擇班級</option>
+                            <option value="航一">航一</option>
+                            <option value="航二">航二</option>
+                            <option value="航三">航三</option>
+                        </select>
+                    </div>
+                    <div class="w-1/2">
+                        <input type="number" name="seatNum" placeholder="填寫座號 (例如: 05)" required min="1" max="60"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
             </div>
 
             <div>
@@ -81,7 +94,7 @@
     </div>
 
     <script>
-        // 已經為您替換上專屬的「網頁應用程式網址」
+        // 您的專屬 GAS 網址已帶入
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwFbXpyiibSGwaV6b0kfLX0O1T16lq-LRZMx-6NMiBstonTZ5nc1BJtVOezy35Y7HN/exec';
 
         document.getElementById('quizForm').addEventListener('submit', function(e) {
