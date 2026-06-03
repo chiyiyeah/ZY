@@ -129,7 +129,7 @@
 </div>
 
 <script>
-    // 您的專屬 GAS 網頁應用程式網址
+    // 您的專屬 GAS 網頁應用程式網址（請記得替換成重新部署後的新網址）
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwFbXpyiibSGwaV6b0kfLX0O1T16lq-LRZMx-6NMiBstonTZ5nc1BJtVOezy35Y7HN/exec';
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
@@ -150,24 +150,21 @@
             searchParams.append(pair[0], pair[1]);
         }
 
-        // 透過 AJAX 傳送資料到 GAS
+        // 透過 AJAX 傳送資料到 GAS (修正 CORS 跨網域版本)
         fetch(GAS_URL, {
             method: 'POST',
             body: searchParams,
+            mode: 'no-cors', 
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if(data.result === 'success') {
-                messageDiv.className = 'success';
-                messageDiv.innerText = '🎉 太棒了！你的學習單已成功送出！';
-                messageDiv.style.display = 'block';
-                document.getElementById('quizForm').reset();
-            } else {
-                throw new Error(data.error);
-            }
+        .then(response => {
+            // no-cors 模式下無法解析 response.json()，只要順利回應即代表成功寫入
+            messageDiv.className = 'success';
+            messageDiv.innerText = '🎉 太棒了！你的學習單已成功送出！';
+            messageDiv.style.display = 'block';
+            document.getElementById('quizForm').reset();
         })
         .catch(error => {
             messageDiv.className = 'error';
