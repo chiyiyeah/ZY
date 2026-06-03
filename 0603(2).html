@@ -3,178 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>紙電路實作自動化學習單</title>
+    <title>⚡ 紙電路實作數位學習單</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #6366f1;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            color: #333;
         }
+
         .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            max-width: 550px;
             width: 100%;
         }
-        h2 {
+
+        .header {
             text-align: center;
-            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .header i {
+            font-size: 3rem;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #475569;
         }
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea {
-            resize: vertical;
-            height: 100px;
-        }
-        .radio-group {
+
+        /* 姓名與座號並排樣式 */
+        .input-row {
             display: flex;
             gap: 15px;
-            margin-top: 5px;
         }
+
+        .input-row .form-group {
+            flex: 1;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .radio-card-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option input:checked + .radio-label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #3498db;
+            padding: 15px;
+            background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
+
         button:hover {
-            background-color: #2980b9;
+            background: var(--secondary-color);
+            transform: translateY(-2px);
         }
+
+        button:active {
+            transform: translateY(0);
+        }
+
         button:disabled {
-            background-color: #95a5a6;
+            background: #94a3b8;
+            cursor: not-allowed;
         }
+
         #message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
             display: none;
+            font-weight: 700;
+            animation: fadeIn 0.5s ease;
         }
-        .success { background-color: #d4edda; color: #155724; }
-        .error { background-color: #f8d7da; color: #721c24; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>⚡ 紙電路實作學習單</h2>
+    <div class="header">
+        <i class="fa-solid fa-bolt-lightning"></i>
+        <h2>紙電路實作學習單</h2>
+        <p style="color: #64748b;">請完成實驗後填寫以下回饋紀錄</p>
+    </div>
+
     <form id="quizForm">
         <div class="form-group">
-            <label for="classGroup">班級</label>
-            <select id="classGroup" name="classGroup" required>
-                <option value="" disabled selected>請選擇班級</option>
+            <label><i class="fa-solid fa-school"></i> 班級分組</label>
+            <select name="classGroup" required>
+                <option value="" disabled selected>請選擇您的班級</option>
                 <option value="航一">航一</option>
                 <option value="航二">航二</option>
                 <option value="航三">航三</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="studentName">學生姓名與座號</label>
-            <input type="text" id="studentName" name="studentName" placeholder="例如：王小明 01號" required>
-        </div>
-
-        <div class="form-group">
-            <label for="ledColor">LED 顏色</label>
-            <select id="ledColor" name="ledColor" required>
-                <option value="" disabled selected>請選擇顏色</option>
-                <option value="紅光">紅光</option>
-                <option value="綠光">綠光</option>
-                <option value="藍光">藍光</option>
-                <option value="黃光">黃光</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>是否成功發光？</label>
-            <div class="radio-group">
-                <label><input type="radio" name="isSuccess" value="是" required> 是</label>
-                <label><input type="radio" name="isSuccess" value="否"> 否</label>
+        <div class="input-row">
+            <div class="form-group">
+                <label><i class="fa-solid fa-list-ol"></i> 座號</label>
+                <input type="number" name="seatNo" placeholder="例如：05" min="1" max="50" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-user"></i> 姓名</label>
+                <input type="text" name="studentName" placeholder="輸入全名" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="reflection">困難與反思</label>
-            <textarea id="reflection" name="reflection" placeholder="請寫下你在製作過程中遇到的困難或心得..." required></textarea>
+            <label><i class="fa-solid fa-lightbulb"></i> LED 顏色</label>
+            <select name="ledColor" required>
+                <option value="" disabled selected>選擇您使用的 LED 顏色</option>
+                <option value="紅光">🔴 紅光</option>
+                <option value="綠光">🟢 綠光</option>
+                <option value="藍光">🔵 藍光</option>
+                <option value="黃光">🟡 黃光</option>
+            </select>
         </div>
 
-        <button type="submit" id="submitBtn">🚀 送出學習單</button>
+        <div class="form-group">
+            <label><i class="fa-solid fa-circle-question"></i> 是否成功發光？</label>
+            <div class="radio-card-group">
+                <div class="radio-option">
+                    <input type="radio" id="yes" name="isSuccess" value="是" required>
+                    <label for="yes" class="radio-label">👍 是，成功</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="no" name="isSuccess" value="否">
+                    <label for="no" class="radio-label">🤔 否，有困難</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-pen-to-square"></i> 困難與反思</label>
+            <textarea name="reflection" placeholder="分享您在製作過程中的發現或遇到的問題..." required></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">
+            <i class="fa-solid fa-paper-plane"></i> 🚀 送出學習單
+        </button>
     </form>
+
     <div id="message"></div>
 </div>
 
 <script>
-    // 您的專屬 GAS 網頁應用程式網址（請記得替換成重新部署後的新網址）
+    // 資料回傳網址
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwFbXpyiibSGwaV6b0kfLX0O1T16lq-LRZMx-6NMiBstonTZ5nc1BJtVOezy35Y7HN/exec';
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const submitBtn = document.getElementById('submitBtn');
-        const messageDiv = document.getElementById('message');
+        const btn = document.getElementById('submitBtn');
+        const msg = document.getElementById('message');
         
-        submitBtn.disabled = true;
-        submitBtn.innerText = '傳送中...';
-        messageDiv.style.display = 'none';
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 傳送中...';
+        msg.style.display = 'none';
 
-        // 封裝表單資料
         const formData = new FormData(this);
-        const searchParams = new URLSearchParams();
-        
-        for (const pair of formData) {
-            searchParams.append(pair[0], pair[1]);
-        }
+        const params = new URLSearchParams();
+        for (const pair of formData) { params.append(pair[0], pair[1]); }
 
-        // 透過 AJAX 傳送資料到 GAS (修正 CORS 跨網域版本)
         fetch(GAS_URL, {
             method: 'POST',
-            body: searchParams,
-            mode: 'no-cors', 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            body: params,
+            mode: 'no-cors' // 解決跨網域問題
         })
-        .then(response => {
-            // no-cors 模式下無法解析 response.json()，只要順利回應即代表成功寫入
-            messageDiv.className = 'success';
-            messageDiv.innerText = '🎉 太棒了！你的學習單已成功送出！';
-            messageDiv.style.display = 'block';
+        .then(() => {
+            msg.className = 'success';
+            msg.innerHTML = '🎉 太棒了！學習單已成功送出！';
+            msg.style.display = 'block';
             document.getElementById('quizForm').reset();
         })
-        .catch(error => {
-            messageDiv.className = 'error';
-            messageDiv.innerText = '❌ 傳送失敗，請檢查網路或聯絡老師！';
-            messageDiv.style.display = 'block';
-            console.error('Error:', error);
+        .catch(err => {
+            msg.className = 'error';
+            msg.innerHTML = '❌ 傳送失敗，請確認網路或重新部署。';
+            msg.style.display = 'block';
+            console.error(err);
         })
         .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = '🚀 送出學習單';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 🚀 送出學習單';
         });
     });
 </script>
