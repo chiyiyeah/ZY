@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>航海科隨堂小測驗</title>
+    <!-- 引入 Tailwind CSS 提供乾淨明亮的現代化 UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Lucide Icons 用於海洋風格的圖標 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 自訂海洋風格漸層與動畫 */
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+        .ocean-card {
+            box-shadow: 0 10px 25px -5px rgba(14, 116, 144, 0.1), 0 8px 10px -6px rgba(14, 116, 144, 0.1);
+        }
+        /* 自訂 Radio 按鈕選中時的外觀 */
+        input[type="radio"]:checked + label {
+            border-color: #0284c7;
+            background-color: #f0f9ff;
+            color: #0369a1;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased pb-12">
+
+    <!-- 導覽列 / 頁首 -->
+    <header class="bg-sky-800 text-white shadow-md mb-8">
+        <div class="max-w-3xl mx-auto px-4 py-6 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- 舵輪 SVG 圖標 -->
+                <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="animation: spin 20s linear infinite;">
+                    <circle cx="12" cy="12" r="8" stroke-width="2"></circle>
+                    <line x1="12" y1="1" x2="12" y2="23" stroke-width="2"></line>
+                    <line x1="1" y1="12" x2="23" y2="12" stroke-width="2"></line>
+                    <line x1="4" y1="4" x2="20" y2="20" stroke-width="2"></line>
+                    <line x1="4" y1="20" x2="20" y2="4" stroke-width="2"></line>
+                    <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+                </svg>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider">航海科隨堂小測驗</h1>
+                    <p class="text-xs text-sky-200">Nautical Science Class Quiz</p>
+                </div>
+            </div>
+            <span class="bg-sky-700 text-sky-100 text-xs px-3 py-1 rounded-full border border-sky-600">
+                基礎航海與避碰
+            </span>
+        </div>
+    </header>
+
+    <!-- 主體內容區 -->
+    <main class="max-w-3xl mx-auto px-4">
+        
+        <form id="quizForm" class="space-y-6">
+            
+            <!-- 學生基本資料卡片 -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-center space-x-2 mb-4 text-sky-800">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                    <h2 class="font-bold text-lg">學生基本資料</h2>
+                </div>
+                <div>
+                    <label for="studentName" class="block text-sm font-medium text-slate-600 mb-2">
+                        學生姓名 <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="studentName" name="studentName" required
+                           placeholder="請輸入你的姓名" 
+                           class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all text-base">
+                </div>
+            </div>
+
+            <!-- 第一題 -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <span class="bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-lg text-sm mt-0.5">Q1</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">棄船信號是什麼？</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">單選題 · 20分</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input type="radio" id="q1_a" name="q1" value="三短聲" class="sr-only" required>
+                        <label for="q1_a" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+                            三短聲
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q1_b" name="q1" value="三長聲" class="sr-only">
+                        <label for="q1_b" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+                            三長聲
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q1_c" name="q1" value="七短一長聲" class="sr-only">
+                        <label for="q1_c" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+                            七短一長聲
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q1_d" name="q1" value="七長一短聲" class="sr-only">
+                        <label for="q1_d" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+                            七長一短聲
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二題 -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <span class="bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-lg text-sm mt-0.5">Q2</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">SART 信號是靠什麼掃測獲得？</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">單選題 · 20分</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input type="radio" id="q2_a" name="q2" value="ECDIS" class="sr-only" required>
+                        <label for="q2_a" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+                            ECDIS (電子海圖資訊系統)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q2_b" name="q2" value="RADAR" class="sr-only">
+                        <label for="q2_b" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+                            RADAR (雷達)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q2_c" name="q2" value="DF" class="sr-only">
+                        <label for="q2_c" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+                            DF (無線電定向儀)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q2_d" name="q2" value="Echo sounder" class="sr-only">
+                        <label for="q2_d" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+                            Echo sounder (測深儀)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三題 -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <span class="bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-lg text-sm mt-0.5">Q3</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">依據國際海上避碰規則，兩艘動力船在海上「對頭相遇」時，應如何避讓？</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">單選題 · 20分</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input type="radio" id="q3_a" name="q3" value="各自向右轉向" class="sr-only" required>
+                        <label for="q3_a" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+                            各自向右轉向，互由對方左舷通過
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q3_b" name="q3" value="各自向左轉向" class="sr-only">
+                        <label for="q3_b" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+                            各自向左轉向，互由對方右舷通過
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q3_c" name="q3" value="由噸位較小船舶避讓" class="sr-only">
+                        <label for="q3_c" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+                            由噸位較小的船舶主動避讓
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q3_d" name="q3" value="保持原速行駛" class="sr-only">
+                        <label for="q3_d" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+                            雙方均保持原航向與航速，以無線電通聯後再行避讓
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四題 (新) -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <span class="bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-lg text-sm mt-0.5">Q4</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">在國際信號旗中，掛出哪一組雙旗信號代表「遭遇險境，需要立即援助」？</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">單選題 · 20分</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input type="radio" id="q4_a" name="q4" value="AB旗" class="sr-only" required>
+                        <label for="q4_a" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+                            A 與 B 旗 (AB)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q4_b" name="q4" value="NC旗" class="sr-only">
+                        <label for="q4_b" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+                            N 與 C 旗 (NC)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q4_c" name="q4" value="XY旗" class="sr-only">
+                        <label for="q4_c" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+                            X 與 Y 旗 (XY)
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q4_d" name="q4" value="UW旗" class="sr-only">
+                        <label for="q4_d" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+                            U 與 W 旗 (UW)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第五題 (新) -->
+            <div class="bg-white rounded-2xl p-6 ocean-card border border-sky-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <span class="bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-lg text-sm mt-0.5">Q5</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">根據國際海上避碰規則，船舶在夜間航行時其「右舷燈」應為何種顏色？</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">單選題 · 20分</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input type="radio" id="q5_a" name="q5" value="紅色" class="sr-only" required>
+                        <label for="q5_a" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+                            紅色
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q5_b" name="q5" value="綠色" class="sr-only">
+                        <label for="q5_b" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+                            綠色
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q5_c" name="q5" value="白色" class="sr-only">
+                        <label for="q5_c" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+                            白色
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="q5_d" name="q5" value="黃色" class="sr-only">
+                        <label for="q5_d" class="flex items-center w-full p-4 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all text-slate-700">
+                            <span class="w-5 h-5 mr-3 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+                            黃色
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 送出按鈕與狀態 -->
+            <div class="pt-4">
+                <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 active:scale-[0.99] text-white font-bold py-4 rounded-2xl shadow-lg transition-all text-lg flex items-center justify-center space-x-2">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>送出並看成績</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- 頁尾聲明 -->
+        <footer class="mt-12 text-center text-xs text-slate-400">
+            <p>© 航海科教學資源 · 保持航向，安全航行</p>
+        </footer>
+    </main>
+
+    <!-- 評分/結果與提交狀態 彈出視窗 (Modal) -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl border border-sky-100 transform scale-95 transition-transform duration-300 relative overflow-hidden my-8">
+            
+            <!-- 裝飾背景圈圈 -->
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-sky-100 rounded-full opacity-50"></div>
+            
+            <!-- 關閉按鈕 -->
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- 內容 -->
+            <div class="text-center">
+                <!-- 狀態圖標 -->
+                <div id="modalIconContainer" class="mx-auto w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mb-4 text-sky-600">
+                    <i data-lucide="award" class="w-10 h-10"></i>
+                </div>
+
+                <h3 id="modalTitle" class="text-2xl font-bold text-slate-800 mb-1">測驗成績</h3>
+                <p id="studentDisplay" class="text-slate-500 text-sm mb-4">學生：--</p>
+
+                <!-- 分數顯示 -->
+                <div class="inline-block bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 mb-4">
+                    <span id="scoreDisplay" class="text-5xl font-extrabold text-sky-600">0</span>
+                    <span class="text-slate-400 text-lg"> / 100 分</span>
+                </div>
+
+                <!-- 回饋評語 -->
+                <p id="feedbackText" class="text-slate-700 font-medium mb-4 px-4">
+                    正在努力上傳資料中...
+                </p>
+
+                <!-- 答題細節報告 (在這裡動態渲染哪些答對哪些答錯) -->
+                <div class="border-t border-b border-slate-100 py-4 my-4 max-h-60 overflow-y-auto text-left">
+                    <h4 class="font-bold text-sm text-slate-600 mb-2 px-1">答題分析報告：</h4>
+                    <div id="answersReport" class="space-y-2">
+                        <!-- 由 JavaScript 動態生成答題回顧列表 -->
+                    </div>
+                </div>
+
+                <!-- 傳輸狀態提示 -->
+                <div id="uploadStatus" class="flex items-center justify-center space-x-2 text-xs text-amber-600 bg-amber-50 rounded-xl py-3 px-4 mb-2">
+                    <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                    <span>正在將成績同步至雲端系統...</span>
+                </div>
+
+                <!-- 確認關閉按鈕 -->
+                <button id="modalActionBtn" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md mt-4">
+                    確定
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Lucide 圖標
+        lucide.createIcons();
+
+        // 題目與正確答案定義
+        const questionsData = {
+            q1: {
+                title: "棄船信號是什麼？",
+                correct: "七短一長聲"
+            },
+            q2: {
+                title: "SART 信號是靠什麼掃測獲得？",
+                correct: "RADAR"
+            },
+            q3: {
+                title: "依據國際海上避碰規則，兩艘動力船在海上「對頭相遇」時，應如何避讓？",
+                correct: "各自向右轉向"
+            },
+            q4: {
+                title: "在國際信號旗中，掛出哪一組雙旗信號代表「遭遇險境，需要立即援助」？",
+                correct: "NC旗"
+            },
+            q5: {
+                title: "根據國際海上避碰規則，船舶在夜間航行時其「右舷燈」應為何種顏色？",
+                correct: "綠色"
+            }
+        };
+
+        const form = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultModal = document.getElementById('resultModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalActionBtn = document.getElementById('modalActionBtn');
+        
+        const studentDisplay = document.getElementById('studentDisplay');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const feedbackText = document.getElementById('feedbackText');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const modalIconContainer = document.getElementById('modalIconContainer');
+        const answersReport = document.getElementById('answersReport');
+
+        // 表單提交處理邏輯
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 禁用送出按鈕
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span>正在計算並上傳...</span>`;
+            lucide.createIcons();
+
+            // 讀取學生姓名與各題選擇
+            const name = document.getElementById('studentName').value.trim();
+            const answers = {
+                q1: form.elements['q1'].value,
+                q2: form.elements['q2'].value,
+                q3: form.elements['q3'].value,
+                q4: form.elements['q4'].value,
+                q5: form.elements['q5'].value
+            };
+
+            // 計算分數，每題 20 分
+            let score = 0;
+            let reportHtml = '';
+
+            Object.keys(questionsData).forEach((key, index) => {
+                const questionNum = index + 1;
+                const question = questionsData[key];
+                const userAnswer = answers[key];
+                const isCorrect = (userAnswer === question.correct);
+
+                if (isCorrect) {
+                    score += 20;
+                    reportHtml += `
+                        <div class="flex items-start p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-xs mr-3 shrink-0">Q${questionNum}</span>
+                            <div class="text-sm">
+                                <p class="font-bold text-slate-800">${question.title}</p>
+                                <p class="text-emerald-700 mt-1 flex items-center">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 mr-1"></i>
+                                    答對了！您選擇：${userAnswer}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    reportHtml += `
+                        <div class="flex items-start p-3 bg-rose-50 rounded-xl border border-rose-100">
+                            <span class="bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded text-xs mr-3 shrink-0">Q${questionNum}</span>
+                            <div class="text-sm">
+                                <p class="font-bold text-slate-800">${question.title}</p>
+                                <p class="text-rose-700 mt-1 flex items-center">
+                                    <i data-lucide="x-circle" class="w-4 h-4 mr-1"></i>
+                                    答錯囉！您選擇：<span class="line-through mr-1">${userAnswer}</span>
+                                </p>
+                                <p class="text-slate-500 mt-0.5">
+                                    💡 正確答案應為：<span class="font-semibold text-emerald-600">${question.correct}</span>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            // 更新報告 DOM 節點
+            answersReport.innerHTML = reportHtml;
+
+            // 更新彈出視窗的學生成績 UI
+            studentDisplay.innerText = `學生：${name}`;
+            scoreDisplay.innerText = score;
+
+            // 根據得分客製評語與背景樣式
+            let feedback = '';
+            let iconHtml = '';
+            if (score === 100) {
+                feedback = "太厲害了！滿分過關！看來你是位優秀的未來大副！";
+                iconHtml = `<i data-lucide="anchor" class="w-10 h-10 text-emerald-600"></i>`;
+                modalIconContainer.className = "mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4 text-emerald-600";
+            } else if (score >= 60) {
+                feedback = "順利及格！航行基礎很棒，繼續向偉大的航道邁進！";
+                iconHtml = `<i data-lucide="compass" class="w-10 h-10 text-sky-600"></i>`;
+                modalIconContainer.className = "mx-auto w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mb-4 text-sky-600";
+            } else {
+                feedback = "方向有點走偏囉！建議重新溫習避碰規則與各類燈光信號。";
+                iconHtml = `<i data-lucide="alert-triangle" class="w-10 h-10 text-amber-600"></i>`;
+                modalIconContainer.className = "mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-4 text-amber-600";
+            }
+            modalIconContainer.innerHTML = iconHtml;
+            feedbackText.innerText = feedback;
+            lucide.createIcons();
+
+            // 顯示評分彈出框
+            resultModal.classList.remove('hidden');
+            resultModal.classList.add('flex');
+
+            // 傳送資料到 Google Apps Script Web App
+            const targetUrl = "https://script.google.com/macros/s/AKfycbyEO-SU1JSfW48vOXkC9Pa0zS4gj3-t_4FphixkIbXN1vU8B88C6UozQMw3zN4WfXYWkg/exec";
+            
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('score', score);
+            formData.append('q1', answers.q1);
+            formData.append('q2', answers.q2);
+            formData.append('q3', answers.q3);
+            formData.append('q4', answers.q4);
+            formData.append('q5', answers.q5);
+
+            // 採用 no-cors 機制，確保即使跨域存取受限，傳輸請求仍可安全送達 Google 後台
+            fetch(targetUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            })
+            .then(response => {
+                uploadStatus.className = "flex items-center justify-center space-x-2 text-xs text-emerald-600 bg-emerald-50 rounded-xl py-3 px-4 mb-2";
+                uploadStatus.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i><span>成績已成功上傳至雲端系統！</span>`;
+                lucide.createIcons();
+            })
+            .catch(error => {
+                console.error('Submission Error:', error);
+                uploadStatus.className = "flex items-center justify-center space-x-2 text-xs text-slate-500 bg-slate-50 rounded-xl py-3 px-4 mb-2";
+                uploadStatus.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>已發送傳輸請求，請確認網路狀態。</span>`;
+                lucide.createIcons();
+            });
+        });
+
+        // 關閉 Modal 事件
+        function closeModal() {
+            resultModal.classList.remove('flex');
+            resultModal.classList.add('hidden');
+            
+            // 重置表單與按鈕狀態
+            form.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i data-lucide="send" class="w-5 h-5"></i><span>送出並看成績</span>`;
+            
+            // 重置上傳提示
+            uploadStatus.className = "flex items-center justify-center space-x-2 text-xs text-amber-600 bg-amber-50 rounded-xl py-3 px-4 mb-2";
+            uploadStatus.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>正在將成績同步至雲端系統...</span>`;
+            
+            lucide.createIcons();
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modalActionBtn.addEventListener('click', closeModal);
+    </script>
+</body>
+</html>
