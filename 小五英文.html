@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小五英文家教工作台</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        /* 左側控制面板 */
+        #sidebar {
+            width: 280px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #34495e;
+            color: #1abc9c;
+            margin: 0;
+        }
+        .section-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #95a5a6;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+        /* 按鈕樣式 */
+        .btn {
+            background-color: #34495e;
+            color: #ecf0f1;
+            border: none;
+            padding: 12px 15px;
+            font-size: 14px;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #415b76;
+            color: white;
+        }
+        .btn.active {
+            background-color: #1abc9c;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .btn-web {
+            background-color: #2980b9;
+        }
+        .btn-web:hover {
+            background-color: #3498db;
+        }
+        .btn-web.active {
+            background-color: #3498db;
+        }
+        .icon {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        /* 右側主要內容區 */
+        #main-content {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            background-color: #ffffff;
+        }
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+        /* 歡迎與外部連結提示畫面 */
+        .display-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+        .display-card h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .display-card p {
+            color: #7f8c8d;
+            font-size: 16px;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .jump-link {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .jump-link:hover {
+            background-color: #d35400;
+            transform: translateY(-1px);
+        }
+        .jump-link:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h1 class="sidebar-title">五英文家教工作台</h1>
+        
+        <div class="section-group">
+            <div class="section-label">單字教材 (直接看)</div>
+            <button class="btn" onclick="openPDF('單字表(高年級).pdf', this)">
+                <span>📄 高年級單字表 2000</span>
+                <span class="icon">➔</span>
+            </button>
+            <button class="btn" onclick="openPDF('GEPTKid_wordlist.pdf', this)">
+                <span>📄 GEPT Kid 單字表</span>
+                <span class="icon">➔</span>
+            </button>
+        </div>
+        
+        <div class="section-group">
+            <div class="section-label">線上資源 (快速跳轉)</div>
+            <button class="btn btn-web" onclick="openWeb('PaGamO 遊戲學習平台', 'https://www.pagamo.org/map?course_code=TMGQOQS7', this)">
+                <span>🎮 PaGamO 任務地圖</span>
+                <span class="icon">↗</span>
+            </button>
+            <button class="btn btn-web" onclick="openWeb('Cool English', 'https://www.coolenglish.edu.tw/enrol/index.php?id=703', this)">
+                <span>🌐 Cool English 課程</span>
+                <span class="icon">↗</span>
+            </button>
+            <button class="btn btn-web" onclick="openWeb('Crescent Education', 'https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/', this)">
+                <span>📝 小五英文語法博客</span>
+                <span class="icon">↗</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <iframe id="pdf-viewer" class="content-frame"></iframe>
+        
+        <div id="message-card" class="display-card">
+            <h2 id="card-title">歡迎使用家教工作台</h2>
+            <p id="card-text">請從左側控制面板選擇今天上課要使用的單字表或線上教材資源。</p>
+            <a id="card-link" class="jump-link" href="#" target="_blank" style="display: none;">立即開啟外部網站 ↗</a>
+        </div>
+    </div>
+
+    <script>
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const messageCard = document.getElementById('message-card');
+        const cardTitle = document.getElementById('card-title');
+        const cardText = document.getElementById('card-text');
+        const cardLink = document.getElementById('card-link');
+
+        // 清除所有按鈕的選取狀態
+        function clearActiveStates() {
+            document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        // 處理 PDF 檔案切換
+        function openPDF(fileName, button) {
+            clearActiveStates();
+            button.classList.add('active');
+            
+            // 隱藏跳轉提示卡片，顯示 iframe 並載入 PDF
+            messageCard.style.display = 'none';
+            pdfViewer.style.display = 'block';
+            pdfViewer.src = fileName;
+        }
+
+        // 處理外部網站跳轉
+        function openWeb(siteName, url, button) {
+            clearActiveStates();
+            button.classList.add('active');
+            
+            // 隱藏 iframe
+            pdfViewer.style.display = 'none';
+            pdfViewer.src = '';
+            
+            // 配置中央提示卡片為該網站的傳送門
+            cardTitle.innerText = siteName;
+            cardText.innerText = `由於目標網站的安全防護限制，無法直接嵌入在小視窗內。請點擊下方橘色按鈕，將為您在新分頁中打開該教學平台。`;
+            cardLink.href = url;
+            cardLink.style.display = 'inline-block';
+            messageCard.style.display = 'flex';
+            
+            // 自動幫忙在新分頁打開，減少一次點擊
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
