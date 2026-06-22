@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小五英文家教工作台</title>
+    <title>國小五英文家教工作台</title>
     <style>
         * {
             box-sizing: border-box;
@@ -16,6 +16,7 @@
             height: 100vh;
             background-color: #f8f9fa;
             color: #333;
+            overflow: hidden; /* 防止整頁出現雙重捲軸 */
         }
         /* 左側控制面板 */
         #sidebar {
@@ -29,6 +30,7 @@
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             z-index: 10;
             flex-shrink: 0;
+            overflow-y: auto; /* 若解析度較低，左側選單可自行滾動 */
         }
         .sidebar-title {
             font-size: 18px;
@@ -155,15 +157,15 @@
 <body>
 
     <div id="sidebar">
-        <h1 class="sidebar-title">五英文家教工作台</h1>
+        <h1 class="sidebar-title">國小五英文家教工作台</h1>
         
         <div class="section-group">
             <div class="section-label">單字教材 (直接看)</div>
-            <button class="btn" onclick="openPDF('file:///C:/Users/wosam/OneDrive/Desktop/%E5%96%AE%E5%AD%97%E8%A1%A8(%E9%AB%98%E5%B9%B4%E7%B4%9A).pdf', this)">
+            <button class="btn" onclick="openPDF('單字表(高年級).pdf', this)">
                 <span>📄 高年級單字表 2000</span>
                 <span class="icon">➔</span>
             </button>
-            <button class="btn" onclick="openPDF('file:///C:/Users/wosam/OneDrive/Desktop/GEPTKid_wordlist.pdf', this)">
+            <button class="btn" onclick="openPDF('GEPTKid_wordlist.pdf', this)">
                 <span>📄 GEPT Kid 單字表</span>
                 <span class="icon">➔</span>
             </button>
@@ -175,7 +177,7 @@
                 <span>🎮 PaGamO 任務地圖</span>
                 <span class="icon">↗</span>
             </button>
-            <button class="btn btn-web" onclick="openWeb('https://www.coolenglish.edu.tw/course/view.php?id=703#_=_', this)">
+            <button class="btn btn-web" onclick="openWeb('Cool English 課程網站', 'https://www.coolenglish.edu.tw/course/view.php?id=703#_=_', this)">
                 <span>🌐 Cool English 課程</span>
                 <span class="icon">↗</span>
             </button>
@@ -203,42 +205,25 @@
         const cardText = document.getElementById('card-text');
         const cardLink = document.getElementById('card-link');
 
-        // 清除所有按鈕的選取狀態
+        // 清除所有按鈕的點選高亮狀態
         function clearActiveStates() {
             document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
         }
 
-        // 處理 PDF 檔案切換
+        // 處理本地 PDF 檔案顯示（採用相對路徑，免除 file:/// 安全性鎖定問題）
         function openPDF(fileName, button) {
             clearActiveStates();
             button.classList.add('active');
             
-            // 隱藏跳轉提示卡片，顯示 iframe 並載入 PDF
+            // 隱藏中央提示卡片，流暢秀出右側 PDF
             messageCard.style.display = 'none';
             pdfViewer.style.display = 'block';
             pdfViewer.src = fileName;
         }
 
-        // 處理外部網站跳轉
+        // 處理外部網站新視窗彈出
         function openWeb(siteName, url, button) {
             clearActiveStates();
             button.classList.add('active');
             
-            // 隱藏 iframe
-            pdfViewer.style.display = 'none';
-            pdfViewer.src = '';
-            
-            // 配置中央提示卡片為該網站的傳送門
-            cardTitle.innerText = siteName;
-            cardText.innerText = `由於目標網站的安全防護限制，無法直接嵌入在小視窗內。請點擊下方橘色按鈕，將為您在新分頁中打開該教學平台。`;
-            cardLink.href = url;
-            cardLink.style.display = 'inline-block';
-            messageCard.style.display = 'flex';
-            
-            // 自動幫忙在新分頁打開，減少一次點擊
-            window.open(url, '_blank');
-        }
-    </script>
-
-</body>
-</html>
+            // 隱藏 PDF 視窗以免
