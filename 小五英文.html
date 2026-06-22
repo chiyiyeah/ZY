@@ -65,3 +65,101 @@
 
     <div id="sidebar">
         <h1 class="sidebar-title">國小五英文家教工作台</h1>
+        
+        <div class="section-group">
+            <div class="section-label">單字教材 (開新分頁)</div>
+            <button class="btn" onclick="showWeb('高年級單字表 雲端連結', 'https://share.google/lcZZsDtLg2VrnoIOL', this)">📄 高年級單字表 (圖)</button>
+            <button class="btn" onclick="showWeb('GEPT Kid 官方單字表 PDF', 'https://www.geptkids.org.tw/pdf/GEPTKid_wordlist02.pdf', this)">📄 GEPT Kid 單字表 (圖)</button>
+        </div>
+        
+        <div class="section-group">
+            <div class="section-label">線上資源 (一鍵直達)</div>
+            <button class="btn btn-web" onclick="showWeb('PaGamO 遊戲學習平台', 'https://www.pagamo.org/map?course_code=TMGQOQS7', this)">🎮 PaGamO 任務地圖</button>
+            <button class="btn btn-web" onclick="showWeb('Cool English 課程網站', 'https://www.coolenglish.edu.tw/course/view.php?id=703', this)">🌐 Cool English 課程</button>
+            <button class="btn btn-web" onclick="showWeb('Crescent Education', 'https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/', this)">📝 小五英文語法</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div id="image-viewer">
+            <div class="viewer-toolbar">
+                <button id="btn-prev" class="toolbar-btn" onclick="goPage(-1)">上一頁</button>
+                <span id="page-indicator">第 1 / 10 頁</span>
+                <button id="btn-next" class="toolbar-btn" onclick="goPage(1)">下一頁</button>
+            </div>
+            <div class="img-container" id="scroll-box">
+                <img id="vocab-img" src="" alt="教材圖片">
+            </div>
+        </div>
+        
+        <div id="message-card" class="display-card">
+            <h2 id="card-title">歡迎使用家教工作台</h2>
+            <p id="card-text">請點擊左側控制面板開始上課。</p>
+            <a id="card-link" class="jump-link" href="#" target="_blank" style="display: none;">立即開啟外部網站 ↗</a>
+        </div>
+    </div>
+
+    <script>
+        // 圖片清單陣列保留以作備用與結構完整
+        const imageLists = {
+            senior: [
+                '單字表(高年級)_page-0001.jpg', '單字表(高年級)_page-0002.jpg', '單字表(高年級)_page-0003.jpg',
+                '單字表(高年級)_page-0004.jpg', '單字表(高年級)_page-0005.jpg', '單字表(高年級)_page-0006.jpg',
+                '單字表(高年級)_page-0007.jpg', '單字表(高年級)_page-0008.jpg', '單字表(高年級)_page-0009.jpg',
+                '單字表(高年級)_page-0010.jpg'
+            ],
+            kid: [
+                'GEPTKid_wordlist_page-0001.jpg', 'GEPTKid_wordlist_page-0002.jpg', 'GEPTKid_wordlist_page-0003.jpg',
+                'GEPTKid_wordlist_page-0004.jpg', 'GEPTKid_wordlist_page-0005.jpg', 'GEPTKid_wordlist_page-0006.jpg',
+                'GEPTKid_wordlist_page-0007.jpg', 'GEPTKid_wordlist_page-0008.jpg', 'GEPTKid_wordlist_page-0009.jpg',
+                'GEPTKid_wordlist_page-0010.jpg', 'GEPTKid_wordlist_page-0011.jpg', 'GEPTKid_wordlist_page-0012.jpg',
+                'GEPTKid_wordlist_page-0013.jpg', 'GEPTKid_wordlist_page-0014.jpg', 'GEPTKid_wordlist_page-0015.jpg',
+                'GEPTKid_wordlist_page-0016.jpg', 'GEPTKid_wordlist_page-0017.jpg', 'GEPTKid_wordlist_page-0018.jpg'
+            ]
+        };
+
+        let currentType = 'senior';
+        let currentIndex = 0;
+
+        // 保留原函式防止錯誤，功能全由下方 showWeb 統一處理
+        function showImages(type, btn) {
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('message-card').style.display = 'none';
+            document.getElementById('image-viewer').style.display = 'flex';
+            currentType = type; currentIndex = 0;
+            renderImage();
+        }
+
+        function renderImage() {
+            const list = imageLists[currentType];
+            document.getElementById('vocab-img').src = list[currentIndex];
+            document.getElementById('page-indicator').innerText = `第 ${currentIndex + 1} / ${list.length} 頁`;
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+            document.getElementById('btn-next').disabled = (currentIndex === list.length - 1);
+            document.getElementById('scroll-box').scrollTop = 0;
+        }
+
+        function goPage(dir) {
+            currentIndex += dir;
+            renderImage();
+        }
+
+        // 統一跳轉邏輯：左側按鈕均呼叫此函式，開新分頁，並在右側秀出防攔截橘色大按鈕
+        function showWeb(title, url, btn) {
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('image-viewer').style.display = 'none';
+            
+            document.getElementById('card-title').innerText = title;
+            document.getElementById('card-text').innerText = "已嘗試在新分頁為您開啟網站。如果頁面被瀏覽器攔截未跳出，請直接點擊下方橘色大按鈕手動開啟：";
+            const link = document.getElementById('card-link');
+            link.href = url;
+            link.style.display = 'inline-block';
+            document.getElementById('message-card').style.display = 'flex';
+            
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
