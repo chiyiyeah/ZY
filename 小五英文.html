@@ -16,7 +16,7 @@
             height: 100vh;
             background-color: #f8f9fa;
             color: #333;
-            overflow: hidden; /* 防止整頁出現雙重捲軸 */
+            overflow: hidden;
         }
         /* 左側控制面板 */
         #sidebar {
@@ -30,7 +30,7 @@
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             z-index: 10;
             flex-shrink: 0;
-            overflow-y: auto; /* 若解析度較低，左側選單可自行滾動 */
+            overflow-y: auto;
         }
         .sidebar-title {
             font-size: 18px;
@@ -86,9 +86,6 @@
         .btn-web:hover {
             background-color: #3498db;
         }
-        .btn-web.active {
-            background-color: #3498db;
-        }
         .icon {
             font-size: 12px;
             opacity: 0.7;
@@ -100,130 +97,37 @@
             height: 100%;
             background-color: #ffffff;
         }
-        .content-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
+        /* 圖片檢視器區 */
+        #image-viewer {
             display: none;
-        }
-        /* 歡迎與外部連結提示畫面 */
-        .display-card {
-            position: absolute;
-            top: 0;
-            left: 0;
+            flex-direction: column;
             width: 100%;
             height: 100%;
+            background-color: #555;
+        }
+        .viewer-toolbar {
+            background-color: #1a1a1a;
+            padding: 10px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px;
-            text-align: center;
-            background-color: #ffffff;
+            gap: 15px;
+            color: white;
+            user-select: none;
         }
-        .display-card h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        .display-card p {
-            color: #7f8c8d;
-            font-size: 16px;
-            max-width: 500px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .jump-link {
-            display: inline-block;
+        .toolbar-btn {
             background-color: #e67e22;
             color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
             font-weight: bold;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.1s;
         }
-        .jump-link:hover {
+        .toolbar-btn:hover {
             background-color: #d35400;
-            transform: translateY(-1px);
         }
-        .jump-link:active {
-            transform: translateY(1px);
-        }
-    </style>
-</head>
-<body>
-
-    <div id="sidebar">
-        <h1 class="sidebar-title">國小五英文家教工作台</h1>
-        
-        <div class="section-group">
-            <div class="section-label">單字教材 (直接看)</div>
-            <button class="btn" onclick="openPDF('單字表(高年級).pdf', this)">
-                <span>📄 高年級單字表 2000</span>
-                <span class="icon">➔</span>
-            </button>
-            <button class="btn" onclick="openPDF('GEPTKid_wordlist.pdf', this)">
-                <span>📄 GEPT Kid 單字表</span>
-                <span class="icon">➔</span>
-            </button>
-        </div>
-        
-        <div class="section-group">
-            <div class="section-label">線上資源 (快速跳轉)</div>
-            <button class="btn btn-web" onclick="openWeb('PaGamO 遊戲學習平台', 'https://www.pagamo.org/map?course_code=TMGQOQS7', this)">
-                <span>🎮 PaGamO 任務地圖</span>
-                <span class="icon">↗</span>
-            </button>
-            <button class="btn btn-web" onclick="openWeb('Cool English 課程網站', 'https://www.coolenglish.edu.tw/course/view.php?id=703#_=_', this)">
-                <span>🌐 Cool English 課程</span>
-                <span class="icon">↗</span>
-            </button>
-            <button class="btn btn-web" onclick="openWeb('Crescent Education', 'https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/', this)">
-                <span>📝 小五英文語法</span>
-                <span class="icon">↗</span>
-            </button>
-        </div>
-    </div>
-
-    <div id="main-content">
-        <iframe id="pdf-viewer" class="content-frame"></iframe>
-        
-        <div id="message-card" class="display-card">
-            <h2 id="card-title">歡迎使用家教工作台</h2>
-            <p id="card-text">請從左側控制面板選擇今天上課要使用的單字表或線上教材資源。</p>
-            <a id="card-link" class="jump-link" href="#" target="_blank" style="display: none;">立即開啟外部網站 ↗</a>
-        </div>
-    </div>
-
-    <script>
-        const pdfViewer = document.getElementById('pdf-viewer');
-        const messageCard = document.getElementById('message-card');
-        const cardTitle = document.getElementById('card-title');
-        const cardText = document.getElementById('card-text');
-        const cardLink = document.getElementById('card-link');
-
-        // 清除所有按鈕的點選高亮狀態
-        function clearActiveStates() {
-            document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
-        }
-
-        // 處理本地 PDF 檔案顯示（採用相對路徑，免除 file:/// 安全性鎖定問題）
-        function openPDF(fileName, button) {
-            clearActiveStates();
-            button.classList.add('active');
-            
-            // 隱藏中央提示卡片，流暢秀出右側 PDF
-            messageCard.style.display = 'none';
-            pdfViewer.style.display = 'block';
-            pdfViewer.src = fileName;
-        }
-
-        // 處理外部網站新視窗彈出
-        function openWeb(siteName, url, button) {
-            clearActiveStates();
-            button.classList.add('active');
-            
-            // 隱藏 PDF 視窗以免
+        .toolbar-btn:disabled {
+            background-color: #777;
+            cursor: not-allowed
