@@ -2,41 +2,112 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>國小五英文家教工作台 (保證點得開版)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小五英文家教工作台</title>
     <style>
-        body { font-family: sans-serif; margin: 0; display: flex; height: 100vh; background: #f4f6f7; }
-        #sidebar { width: 260px; background: #2c3e50; color: white; padding: 20px; box-sizing: border-box; }
-        h3 { color: #1abc9c; border-bottom: 1px solid #34495e; padding-bottom: 10px; margin-top: 20px; }
-        .link-btn { display: block; background: #34495e; color: #ecf0f1; padding: 12px; margin-bottom: 8px; text-decoration: none; border-radius: 5px; font-size: 14px; }
-        .link-btn:hover { background: #415b76; }
-        .web-btn { background: #2980b9; }
-        .web-btn:hover { background: #3498db; }
-        #welcome { flex: 1; display: flex; justify-content: center; align-items: center; background: white; text-align: center; padding: 40px; }
-        h1 { color: #2c3e50; }
+        * { box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            margin: 0; padding: 0; display: flex; height: 100vh;
+            background-color: #f8f9fa; color: #333; overflow: hidden;
+        }
+        /* 左側控制面板 */
+        #sidebar {
+            width: 280px; background-color: #2c3e50; color: white;
+            padding: 20px 15px; display: flex; flex-direction: column; gap: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); flex-shrink: 0; overflow-y: auto;
+        }
+        .sidebar-title {
+            font-size: 18px; font-weight: bold; text-align: center;
+            padding-bottom: 15px; border-bottom: 1px solid #34495e; color: #1abc9c; margin: 0;
+        }
+        .section-group { display: flex; flex-direction: column; gap: 8px; }
+        .section-label { font-size: 12px; color: #95a5a6; font-weight: 600; letter-spacing: 1px; }
+        /* 按鈕樣式 */
+        .btn {
+            background-color: #34495e; color: #ecf0f1; border: none; padding: 12px 15px;
+            font-size: 14px; text-align: left; cursor: pointer; border-radius: 6px;
+            transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between; width: 100%;
+        }
+        .btn:hover { background-color: #415b76; color: white; }
+        .btn.active { background-color: #1abc9c; color: white; font-weight: bold; }
+        .btn-web { background-color: #2980b9; }
+        .btn-web:hover { background-color: #3498db; }
+        /* 右側內容區 */
+        #main-content { flex: 1; position: relative; height: 100%; background-color: #ffffff; }
+        /* 圖片檢視器 */
+        #image-viewer { display: none; flex-direction: column; width: 100%; height: 100%; background-color: #555; }
+        .viewer-toolbar {
+            background-color: #1a1a1a; padding: 10px; display: flex;
+            justify-content: center; align-items: center; gap: 15px; color: white;
+        }
+        .toolbar-btn {
+            background-color: #e67e22; color: white; border: none; padding: 8px 20px;
+            border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        .toolbar-btn:disabled { background-color: #777; cursor: not-allowed; }
+        .img-container { flex: 1; overflow-y: auto; display: flex; justify-content: center; padding: 20px; }
+        .img-container img { max-width: 90%; height: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3); background-color: white; }
+        /* 提示卡片 */
+        .display-card {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 40px; text-align: center; background-color: #ffffff;
+        }
+        .jump-link {
+            display: inline-block; background-color: #e67e22; color: white; text-decoration: none;
+            padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <h2>英文家教控制台</h2>
+        <h1 class="sidebar-title">國小五英文家教工作台</h1>
         
-        <h3>📄 單字教材 (開新分頁)</h3>
-        <a class="link-btn" href="單字表(高年級)_page-0001.jpg" target="_blank">📄 高年級單字表 (第1頁)</a>
-        <a class="link-btn" href="GEPTKid_wordlist_page-0001.jpg" target="_blank">📄 GEPT Kid 單字表 (第1頁)</a>
+        <div class="section-group">
+            <div class="section-label">單字教材 (右側看圖)</div>
+            <button class="btn" onclick="showImages('senior', this)">📄 高年級單字表 (圖)</button>
+            <button class="btn" onclick="showImages('kid', this)">📄 GEPT Kid 單字表 (圖)</button>
+        </div>
         
-        <h3>🌐 線上資源 (開新分頁)</h3>
-        <a class="link-btn web-btn" href="https://www.coolenglish.edu.tw/course/view.php?id=703" target="_blank">🌐 Cool English 課程</a>
-        <a class="link-btn web-btn" href="https://www.pagamo.org/map?course_code=TMGQOQS7" target="_blank">🎮 PaGamO 任務地圖</a>
-        <a class="link-btn web-btn" href="https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/" target="_blank">📝 小五英文語法</a>
-    </div>
-
-    <div id="welcome">
-        <div>
-            <h1>家教工作台已就緒</h1>
-            <p>這個版本採用瀏覽器最原始的超連結技術，100% 免疫任何安全封鎖。</p>
-            <p>點擊左側任何項目，都會直接在「全新分頁」中打開，上課完全不卡頓！</p>
+        <div class="section-group">
+            <div class="section-label">線上資源 (一鍵直達)</div>
+            <button class="btn btn-web" onclick="showWeb('PaGamO 遊戲學習平台', 'https://www.pagamo.org/map?course_code=TMGQOQS7', this)">🎮 PaGamO 任務地圖</button>
+            <button class="btn btn-web" onclick="showWeb('Cool English 課程網站', 'https://www.coolenglish.edu.tw/course/view.php?id=703', this)">🌐 Cool English 課程</button>
+            <button class="btn btn-web" onclick="showWeb('Crescent Education', 'https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/', this)">📝 小五英文語法</button>
         </div>
     </div>
 
-</body>
-</html>
+    <div id="main-content">
+        <div id="image-viewer">
+            <div class="viewer-toolbar">
+                <button id="btn-prev" class="toolbar-btn" onclick="goPage(-1)">上一頁</button>
+                <span id="page-indicator">第 1 / 10 頁</span>
+                <button id="btn-next" class="toolbar-btn" onclick="goPage(1)">下一頁</button>
+            </div>
+            <div class="img-container" id="scroll-box">
+                <img id="vocab-img" src="" alt="教材圖片">
+            </div>
+        </div>
+        
+        <div id="message-card" class="display-card">
+            <h2 id="card-title">歡迎使用家教工作台</h2>
+            <p id="card-text">請點擊左側控制面板開始上課。</p>
+            <a id="card-link" class="jump-link" href="#" target="_blank" style="display: none;">立即開啟外部網站 ↗</a>
+        </div>
+    </div>
+
+    <script>
+        const imageLists = {
+            senior: [
+                '單字表(高年級)_page-0001.jpg', '單字表(高年級)_page-0002.jpg', '單字表(高年級)_page-0003.jpg',
+                '單字表(高年級)_page-0004.jpg', '單字表(高年級)_page-0005.jpg', '單字表(高年級)_page-0006.jpg',
+                '單字表(高年級)_page-0007.jpg', '單字表(高年級)_page-0008.jpg', '單字表(高年級)_page-0009.jpg',
+                '單字表(高年級)_page-0010.jpg'
+            ],
+            kid: [
+                'GEPTKid_wordlist_page-0001.jpg', 'GEPTKid_wordlist_page-0002.jpg', 'GEPTKid_wordlist_page-0003.jpg',
+                'GEPTKid_wordlist_page-0004.jpg', 'GEPTKid_wordlist_page-0005.jpg', 'GEPTKid_wordlist_page-0006.jpg',
+                'GEPTKid_wordlist_page-0007.jpg', 'GEPTKid_wordlist_page-0008.jpg', 'GEPTKid_wordlist_page-0009.jpg
