@@ -35,7 +35,7 @@
         .btn-web:hover { background-color: #3498db; }
         /* 右側內容區 */
         #main-content { flex: 1; position: relative; height: 100%; background-color: #ffffff; }
-        /* 圖片檢視器 */
+        /* 圖片檢視器 (此結構保留，以便與既有控制邏輯完全相容) */
         #image-viewer { display: none; flex-direction: column; width: 100%; height: 100%; background-color: #555; }
         .viewer-toolbar {
             background-color: #1a1a1a; padding: 10px; display: flex;
@@ -65,49 +65,3 @@
 
     <div id="sidebar">
         <h1 class="sidebar-title">國小五英文家教工作台</h1>
-        
-        <div class="section-group">
-            <div class="section-label">單字教材 (右側看圖)</div>
-            <button class="btn" onclick="showWeb('GEPTKid_wordlist02.pdf', 'https://www.geptkids.org.tw/pdf/GEPTKid_wordlist02.pdf', this)">📄 高年級單字表 (圖)</button>
-            <button class="btn" onclick="showImages('kid', this)">📄 GEPT Kid 單字表 (圖)</button>
-        </div>
-        
-        <div class="section-group">
-            <div class="section-label">線上資源 (一鍵直達)</div>
-            <button class="btn btn-web" onclick="showWeb('PaGamO 遊戲學習平台', 'https://www.pagamo.org/map?course_code=TMGQOQS7', this)">🎮 PaGamO 任務地圖</button>
-            <button class="btn btn-web" onclick="showWeb('Cool English 課程網站', 'https://www.coolenglish.edu.tw/course/view.php?id=703', this)">🌐 Cool English 課程</button>
-            <button class="btn btn-web" onclick="showWeb('Crescent Education', 'https://crescenteduhk.com/crescent-education-englishteam/blog-p5enggrammar/', this)">📝 小五英文語法</button>
-        </div>
-    </div>
-
-    <div id="main-content">
-        <div id="image-viewer">
-            <div class="viewer-toolbar">
-                <button id="btn-prev" class="toolbar-btn" onclick="goPage(-1)">上一頁</button>
-                <span id="page-indicator">第 1 / 10 頁</span>
-                <button id="btn-next" class="toolbar-btn" onclick="goPage(1)">下一頁</button>
-            </div>
-            <div class="img-container" id="scroll-box">
-                <img id="vocab-img" src="" alt="教材圖片">
-            </div>
-        </div>
-        
-        <div id="message-card" class="display-card">
-            <h2 id="card-title">歡迎使用家教工作台</h2>
-            <p id="card-text">請點擊左側控制面板開始上課。</p>
-            <a id="card-link" class="jump-link" href="#" target="_blank" style="display: none;">立即開啟外部網站 ↗</a>
-        </div>
-    </div>
-
-    <script>
-        const imageLists = {
-            senior: [
-                '單字表(高年級)_page-0001.jpg', '單字表(高年級)_page-0002.jpg', '單字表(高年級)_page-0003.jpg',
-                '單字表(高年級)_page-0004.jpg', '單字表(高年級)_page-0005.jpg', '單字表(高年級)_page-0006.jpg',
-                '單字表(高年級)_page-0007.jpg', '單字表(高年級)_page-0008.jpg', '單字表(高年級)_page-0009.jpg',
-                '單字表(高年級)_page-0010.jpg'
-            ],
-            kid: [
-                'GEPTKid_wordlist_page-0001.jpg', 'GEPTKid_wordlist_page-0002.jpg', 'GEPTKid_wordlist_page-0003.jpg',
-                'GEPTKid_wordlist_page-0004.jpg', 'GEPTKid_wordlist_page-0005.jpg', 'GEPTKid_wordlist_page-0006.jpg',
-                'GEPTKid_wordlist_page-0007.jpg', 'GEPTKid_wordlist_page-0008.jpg', 'GEPTKid_wordlist_page-0009.jpg
